@@ -2,7 +2,7 @@
   
 这里会记录关于机器学习的方向  
 Every thing about ML might be update here.  
-  
+笔记将用issues进行记录 并进行分类  
 以下是分类的进度更新情况  
   
 - 机器学习/Machine Learning  
