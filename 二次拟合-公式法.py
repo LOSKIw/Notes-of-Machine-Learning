@@ -3,11 +3,11 @@ import xlwt
 import sympy as sp
 import matplotlib.pyplot as plt
 import numpy as np
-workbook=xlrd.open_workbook(r'D:\吴昊轩\编程相关\实验室-机器学习\线性回归\DataSet\6.xls')
+workbook=xlrd.open_workbook(r'6.xls')
 
 sheet=workbook.sheet_by_index(0)
-cols1=sheet.col_values(0)   #获取第一列
-cols2=sheet.col_values(1)   #获取第二列
+cols1=sheet.col_values(0)                          #获取第一列
+cols2=sheet.col_values(1)                          #获取第二列
 n=100
 s1=0
 s2=0
