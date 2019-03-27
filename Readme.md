@@ -1,7 +1,7 @@
 **辛路历程**  
   
-这里会记录一切关于编程的学习  
-Every thing about coding might be update here.  
+这里会记录关于机器学习的方向  
+Every thing about ML might be update here.  
   
 以下是分类的进度更新情况  
   
