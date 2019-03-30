@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D 
 import numpy as np
-workbook=xlrd.open_workbook(r'D:\吴昊轩\编程相关\实验室-机器学习\线性回归\多元线性回归\data\dataset.xlsx')
+workbook=xlrd.open_workbook(r'dataset.xlsx')
 
 sheet=workbook.sheet_by_index(0)
 Y1=sheet.col_values(0)
