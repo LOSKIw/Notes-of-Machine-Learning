@@ -1,6 +1,7 @@
 from math import log
 import csv
 import numpy as np
+import operator
 
 #求整个数据集的信息熵，其中，currentLabel按行读入最终结果的那一部分数据，并为不
 #同的结果分别计数，最后计算香农熵
@@ -46,17 +47,44 @@ def chooseBestFeatureToSplit(dataset):
             bestFeature = i
     return bestFeature
 
+def majorityCnt(classList):
+    classCount={}
+    for vote in classList:
+        if vote not in classCount.keys():classCount[vote]=0
+        classCount[vote] += 1
+    sortedClassCount = sorted(classClount.iteritems(),\
+                              key=operator.itemgetter(1),reverse=True)
+    return sortedClassCount[0][0]
+
+def createTree(dataSet,labels):
+    classList = [example[-1] for example in dataSet]
+    if classList.count(classList[0]) == len(classList):
+        return classList[0]
+    if len(dataSet[0])==1:
+        return majorityCnt(classList)
+    bestFeat = chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel = labels[bestFeat]
+    myTree = {bestFeatLabel:{}}
+    del(labels[bestFeat])
+    featValues = [example[bestFeat] for example in dataSet]
+    uniqueVals = set(featValues)
+    for value in uniqueVals:
+        subLabels = labels[:]
+        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet,bestFeat,value),subLabels)
+    return myTree
+                       
 
 
-label=['num','embarked','name','sex','age','sibsp','parch','ticket','fare','cabin','HPembarked']
-datacsv = csv.reader(open("train.csv"))
 
-data=[]
-for line in datacsv:
-    data.append(line)
-#data=np.array(data)
+#label=['num','embarked','name','sex','age','sibsp','parch','ticket','fare','cabin','HPembarked']
+#datacsv = csv.reader(open("train.csv"))
 
-a=calcShannonEnt(data)
+#data=[]
+#for line in datacsv:
+#    data.append(line)
 
-result=chooseBestFeatureToSplit(data)
+data=[[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
+label=['no surfacing','flippers']
+
+result=createTree(data,label)
 print(result)
