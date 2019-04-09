@@ -38,8 +38,6 @@ def calcShannonEnt(dataSet):
 #线性求中位数
 def getLinerFlag(dataSet,axis):
     num=len(dataSet)
-    count={1:0,0:0}
-    shannonEnt=0.0
     for i in range(num):
         feature = [ example[axis] for example in dataSet]
         feature2 = sorted( feature )
