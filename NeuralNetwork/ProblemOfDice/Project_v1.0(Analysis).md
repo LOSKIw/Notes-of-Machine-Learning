@@ -52,10 +52,62 @@ for i in range(50000):
 ```  
 整体而言得益于矩阵使得过程十分流畅，内容主要涉及到了不断的求偏导并运用链式法则不断"接近"结果与目标变量的偏导，先不赘述算法了。  
 最后的检验部分...应该也不用再讲什么了吧...  
-  
+同时由于开始的层元素为随机生成所以每次运行不一定相同，可以用seed()函数解决这个问题  
+Test1:  
+```
+-0.19711045500123067
+-5.796510982417874e-05
+-2.6806406495373803e-05
+-1.2019265739013352e-05
+-5.227927664957222e-06
+-2.2248997057949804e-06
+-9.364114896748266e-07
+-3.9213879621080584e-07
+-1.6385924452994028e-07
+-6.84074828341541e-08
+[[0.40000002]
+ [0.50000153]]
+[[0.4]
+ [0.5]]
+```  
+Test2:  
+```
+0.16291901475086618
+-0.0035140803158310225
+1.9674898472920034e-05
+2.840084784809016e-05
+1.790320520679012e-05
+1.059859397264329e-05
+5.907123617054088e-06
+3.147002414242428e-06
+1.6152543191538805e-06
+3.5777556424282377e-07
+[[0.40004171]
+ [0.50000385]]
+[[0.4]
+ [0.5]]
+```  
+不过倒是可以看出来挺准确的就是了...  
+更新一张学习时的正确率的图片：  
+![50000](https://user-images.githubusercontent.com/48372803/56464985-57bcbd80-6427-11e9-9a96-980857541edf.png)  
+可以看出在很早的时候就已经能接近100%了，十分惊人，相关代码如下：  
+`y=[]`  
+```
+count=0
+for i in range(Y.size):
+        if(abs(temp2[i][0]-Y[i][0]))<=0.001:
+           count +=1
+    y.append(count/Y.size)
+```  
+```
+x=np.linspace(0,50000,50000)
+plt.plot(x,y)
+plt.show()
+```  
 完整代码如下:  
 ```
 import numpy as np
+import matplotlib.pyplot as plt
 from createData import generate_data
 
 def sigmoid(x):
@@ -74,9 +126,10 @@ Y=np.array(Y)
 
 L0=2*np.random.random((100,5))-1
 L1=2*np.random.random((5,1))-1
-
+y=[]
 for i in range(50000):
     #forward
+    count=0
     temp0=X
     temp1=sigmoid(np.dot(temp0,L0))
     temp2=sigmoid(np.dot(temp1,L1))
@@ -84,7 +137,10 @@ for i in range(50000):
     error2=Y-temp2
     if (i%5000)==0:
         print(np.mean(error2))
-    
+    for i in range(Y.size):
+        if(abs(temp2[i][0]-Y[i][0]))<=0.001:
+           count +=1
+    y.append(count/Y.size)
     #backward
     d2=error2*dsigmoid(temp2)
     error1=d2.dot(L1.T)
@@ -93,11 +149,14 @@ for i in range(50000):
     L1+=temp1.T.dot(d2)
     L0+=temp0.T.dot(d1)
 
-X1,Y1=generate_data(1)
+X1,Y1=generate_data(2)
 X1=np.array(X1)
 Y1=np.array(Y1)
 t1=sigmoid(np.dot(X1,L0))
 t2=sigmoid(np.dot(t1,L1))
+x=np.linspace(0,50000,50000)
+plt.plot(x,y)
+plt.show()
 print(t2)
 print(Y1)
 ```
