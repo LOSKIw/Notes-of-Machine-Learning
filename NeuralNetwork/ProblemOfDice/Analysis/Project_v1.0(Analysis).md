@@ -2,7 +2,7 @@
 **二层BP神经网络**  
 但是仍有部分在公式上的不明了，但是其运作方式还是很简单的，先简单解析我的代码  
 `from createData import generate_data`  
-是本次所解题目的训练集生成软件，generate_data(N)会返回两个数组，一个为N*100的训练集及其对应的N*1的结果，十分方便  
+是本次所解题目的训练集生成软件，generate_data(N)会返回两个数组，一个为N乘100的训练集及其对应的N乘1的结果，十分方便  
 ```
 L0=2*np.random.random((100,5))-1
 L1=2*np.random.random((5,1))-1
