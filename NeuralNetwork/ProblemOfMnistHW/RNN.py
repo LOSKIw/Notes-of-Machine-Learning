@@ -14,28 +14,19 @@ print('One-hot labels:')
 print(y_train[:10])
 
 model=tf.keras.models.Sequential()
-model.add(tf.keras.layers.Conv2D(filters = 16, kernel_size = 2, padding = 'same', activation = 'relu',input_shape = (28, 28, 1)))
-model.add(tf.keras.layers.MaxPool2D(pool_size = 2))
-model.add(tf.keras.layers.Dropout(0.2))
-model.add(tf.keras.layers.Conv2D(filters = 64, kernel_size = 2, padding = 'same', activation = 'relu'))
-model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(500, activation = 'relu'))
+model.add(tf.keras.layers.SimpleRNN(
+    units=50,
+    batch_input_shape=(None, 28, 28)))
 model.add(tf.keras.layers.Dense(10, activation = 'softmax'))
-
 model.summary()
-
 model.compile(loss = 'categorical_crossentropy',
               optimizer='adadelta',
               metrics=['accuracy'])
 
-x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
-x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
-print(x_train.shape)
-print(x_test.shape)
 model.fit(x_train, y_train,
-          batch_size=1,
-          steps_per_epoch=100,
-          epochs = 5,
+          batch_size=100,
+          epochs = 2,
+          steps_per_epoch=10,
           verbose=1,
           validation_data=(x_test, y_test),
           validation_steps=10)
